@@ -12,316 +12,141 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #f5f5f7;
-    --bg2: #ffffff;
-    --bg3: #ececec;
-    --text: #1a1a1e;
-    --text2: #6e6e73;
-    --text3: #aeaeb2;
-    --border: rgba(0,0,0,0.08);
-    --accent: #5856d6;
-    --school: #34c759;
-    --school-bg: #e8f9ed;
-    --school-text: #1a6630;
-    --ymca: #007aff;
-    --ymca-bg: #e5f0ff;
-    --ymca-text: #003d80;
-    --personal: #ff6b35;
-    --personal-bg: #fff0ea;
-    --personal-text: #7a2800;
-    --radius: 14px;
-    --safe-top: env(safe-area-inset-top, 44px);
-    --safe-bottom: env(safe-area-inset-bottom, 20px);
+    --bg:#f5f5f7;--bg2:#ffffff;--bg3:#ececec;
+    --text:#1a1a1e;--text2:#6e6e73;--text3:#aeaeb2;
+    --border:rgba(0,0,0,0.08);
+    --accent:#5856d6;
+    --school:#34c759;--school-bg:#e8f9ed;--school-text:#1a6630;
+    --ymca:#007aff;--ymca-bg:#e5f0ff;--ymca-text:#003d80;
+    --personal:#ff6b35;--personal-bg:#fff0ea;--personal-text:#7a2800;
+    --radius:14px;
+    --safe-bottom:env(safe-area-inset-bottom,20px);
   }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg: #1c1c1e;
-      --bg2: #2c2c2e;
-      --bg3: #3a3a3c;
-      --text: #f5f5f7;
-      --text2: #aeaeb2;
-      --text3: #636366;
-      --border: rgba(255,255,255,0.08);
-      --school-bg: #0a2e14;
-      --school-text: #4cd964;
-      --ymca-bg: #001f42;
-      --ymca-text: #4db0ff;
-      --personal-bg: #2e1205;
-      --personal-text: #ff8c5a;
+  @media(prefers-color-scheme:dark){
+    :root{
+      --bg:#1c1c1e;--bg2:#2c2c2e;--bg3:#3a3a3c;
+      --text:#f5f5f7;--text2:#aeaeb2;--text3:#636366;
+      --border:rgba(255,255,255,0.08);
+      --school-bg:#0a2e14;--school-text:#4cd964;
+      --ymca-bg:#001f42;--ymca-text:#4db0ff;
+      --personal-bg:#2e1205;--personal-text:#ff8c5a;
     }
   }
-  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-  html, body { height: 100%; overflow: hidden; }
-  body {
-    font-family: 'Noto Sans JP', -apple-system, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    font-size: 16px;
-    overscroll-behavior: none;
-  }
-  .app {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    height: 100dvh;
-  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+  html,body{height:100%;overflow:hidden;}
+  body{font-family:'Noto Sans JP',-apple-system,sans-serif;background:var(--bg);color:var(--text);font-size:16px;overscroll-behavior:none;}
+  .app{display:flex;flex-direction:column;height:100vh;height:100dvh;}
 
-  /* Status Bar */
-  .status-bar {
-    background: var(--bg2);
-    padding-top: var(--safe-top);
-    padding-top: max(var(--safe-top), 44px);
-    flex-shrink: 0;
-  }
+  .status-bar{background:var(--bg2);height:max(env(safe-area-inset-top),44px);flex-shrink:0;}
 
-  /* Header */
-  .header {
-    background: var(--bg2);
-    padding: 12px 20px 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 0.5px solid var(--border);
-  }
-  .header-title { font-size: 22px; font-weight: 700; color: var(--text); }
-  .add-btn {
-    width: 34px; height: 34px;
-    background: var(--accent);
-    border: none;
-    border-radius: 50%;
-    color: #fff;
-    font-size: 22px;
-    line-height: 1;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: transform 0.1s, opacity 0.1s;
-  }
-  .add-btn:active { transform: scale(0.92); opacity: 0.85; }
+  .header{background:var(--bg2);padding:10px 16px;display:flex;justify-content:space-between;align-items:center;border-bottom:0.5px solid var(--border);}
+  .header-title{font-size:20px;font-weight:700;}
+  .header-btns{display:flex;gap:8px;}
+  .icon-btn{width:34px;height:34px;background:var(--bg3);border:none;border-radius:50%;color:var(--text2);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform 0.1s;}
+  .icon-btn.accent{background:var(--accent);color:#fff;font-size:22px;}
+  .icon-btn:active{transform:scale(0.92);}
 
-  /* Filters */
-  .filters {
-    background: var(--bg2);
-    padding: 8px 16px 10px;
-    display: flex;
-    gap: 8px;
-    overflow-x: auto;
-    scrollbar-width: none;
-  }
-  .filters::-webkit-scrollbar { display: none; }
-  .filter-chip {
-    flex-shrink: 0;
-    padding: 5px 14px;
-    border-radius: 20px;
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    border: 1.5px solid transparent;
-    transition: all 0.15s;
-    background: var(--bg3);
-    color: var(--text2);
-  }
-  .filter-chip.active { background: var(--accent); color: #fff; border-color: var(--accent); }
-  .filter-chip.school { border-color: var(--school); }
-  .filter-chip.school.active { background: var(--school); border-color: var(--school); }
-  .filter-chip.ymca { border-color: var(--ymca); }
-  .filter-chip.ymca.active { background: var(--ymca); border-color: var(--ymca); }
+  .filters{background:var(--bg2);padding:6px 16px 8px;display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;}
+  .filters::-webkit-scrollbar{display:none;}
+  .filter-chip{flex-shrink:0;padding:5px 14px;border-radius:20px;font-size:13px;font-weight:500;cursor:pointer;border:1.5px solid transparent;background:var(--bg3);color:var(--text2);transition:all 0.15s;}
+  .filter-chip.active{background:var(--accent);color:#fff;}
+  .filter-chip.school.active{background:var(--school);}
+  .filter-chip.ymca.active{background:var(--ymca);}
 
-  /* Month Nav */
-  .month-nav {
-    background: var(--bg2);
-    padding: 8px 16px 6px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 0.5px solid var(--border);
-  }
-  .month-label { font-size: 15px; font-weight: 600; color: var(--text); }
-  .month-btn { background: none; border: none; color: var(--text2); font-size: 20px; cursor: pointer; padding: 4px 10px; }
+  .month-nav{background:var(--bg2);padding:6px 16px 4px;display:flex;align-items:center;justify-content:space-between;border-bottom:0.5px solid var(--border);}
+  .month-label{font-size:15px;font-weight:600;}
+  .month-btn{background:none;border:none;color:var(--text2);font-size:20px;cursor:pointer;padding:4px 10px;}
 
-  /* Calendar */
-  .cal-wrap {
-    background: var(--bg2);
-    flex-shrink: 0;
-  }
-  .weekdays {
-    display: grid;
-    grid-template-columns: repeat(7,1fr);
-    padding: 0 10px 2px;
-  }
-  .wd { text-align: center; font-size: 11px; color: var(--text3); padding: 3px 0; font-weight: 500; }
-  .cal-grid {
-    display: grid;
-    grid-template-columns: repeat(7,1fr);
-    padding: 2px 10px 8px;
-    gap: 2px;
-  }
-  .day {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 2px 0;
-    cursor: pointer;
-    border-radius: 10px;
-    transition: background 0.1s;
-  }
-  .day:active { background: var(--bg3); }
-  .day .num {
-    width: 30px; height: 30px;
-    display: flex; align-items: center; justify-content: center;
-    border-radius: 50%;
-    font-size: 13px;
-    font-weight: 400;
-    color: var(--text);
-  }
-  .day.today .num { background: var(--accent); color: #fff; font-weight: 700; }
-  .day.other .num { color: var(--text3); }
-  .day.selected:not(.today) .num { background: rgba(88,86,214,0.12); color: var(--accent); font-weight: 600; }
-  .day .dots { display: flex; gap: 2px; margin-top: 2px; min-height: 6px; }
-  .dot { width: 5px; height: 5px; border-radius: 50%; }
+  .cal-wrap{background:var(--bg2);flex-shrink:0;}
+  .weekdays{display:grid;grid-template-columns:repeat(7,1fr);padding:0 10px 2px;}
+  .wd{text-align:center;font-size:11px;color:var(--text3);padding:3px 0;font-weight:500;}
+  .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);padding:2px 10px 8px;gap:2px;}
+  .day{display:flex;flex-direction:column;align-items:center;padding:2px 0;cursor:pointer;border-radius:10px;transition:background 0.1s;}
+  .day:active{background:var(--bg3);}
+  .day .num{width:30px;height:30px;display:flex;align-items:center;justify-content:center;border-radius:50%;font-size:13px;font-weight:400;color:var(--text);}
+  .day.today .num{background:var(--accent);color:#fff;font-weight:700;}
+  .day.other .num{color:var(--text3);}
+  .day.selected:not(.today) .num{background:rgba(88,86,214,0.12);color:var(--accent);font-weight:600;}
+  .day .dots{display:flex;gap:2px;margin-top:2px;min-height:6px;}
+  .dot{width:5px;height:5px;border-radius:50%;}
 
-  /* Scrollable content */
-  .content {
-    flex: 1;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    padding-bottom: calc(var(--safe-bottom) + 70px);
-  }
+  .content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:calc(var(--safe-bottom) + 70px);}
+  .section-header{padding:12px 20px 8px;font-size:12px;font-weight:600;color:var(--text2);letter-spacing:0.05em;}
+  .event-list{padding:0 16px;display:flex;flex-direction:column;gap:8px;}
 
-  .section-header {
-    padding: 14px 20px 8px;
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--text2);
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-  }
-  .event-list { padding: 0 16px; display: flex; flex-direction: column; gap: 8px; }
-  .event-card {
-    background: var(--bg2);
-    border-radius: var(--radius);
-    padding: 12px 14px;
-    display: flex;
-    gap: 10px;
-    align-items: flex-start;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-    transition: transform 0.1s;
-  }
-  .event-card:active { transform: scale(0.98); }
-  .event-bar { width: 4px; border-radius: 3px; align-self: stretch; min-height: 36px; flex-shrink: 0; }
-  .event-body { flex: 1; min-width: 0; }
-  .event-name { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
-  .event-meta { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
-  .badge {
-    font-size: 11px;
-    padding: 2px 8px;
-    border-radius: 20px;
-    font-weight: 500;
-  }
-  .empty-msg { padding: 24px 20px; text-align: center; color: var(--text3); font-size: 14px; }
+  /* Event card with swipe-to-delete */
+  .event-card{background:var(--bg2);border-radius:var(--radius);display:flex;align-items:stretch;box-shadow:0 1px 3px rgba(0,0,0,0.05);overflow:hidden;position:relative;}
+  .event-inner{display:flex;gap:10px;align-items:center;padding:12px 14px;flex:1;min-width:0;transition:transform 0.25s cubic-bezier(0.32,0.72,0,1);}
+  .event-card.swiped .event-inner{transform:translateX(-72px);}
+  .event-bar{width:4px;border-radius:3px;align-self:stretch;min-height:36px;flex-shrink:0;}
+  .event-body{flex:1;min-width:0;}
+  .event-name{font-size:14px;font-weight:600;color:var(--text);margin-bottom:4px;}
+  .event-meta{display:flex;gap:6px;flex-wrap:wrap;align-items:center;}
+  .badge{font-size:11px;padding:2px 8px;border-radius:20px;font-weight:500;}
+  .delete-reveal{position:absolute;right:0;top:0;bottom:0;width:72px;background:#ff3b30;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;border:none;}
+  .delete-reveal span{font-size:20px;}
+  .delete-reveal small{font-size:11px;color:#fff;font-weight:600;}
+  .empty-msg{padding:24px 20px;text-align:center;color:var(--text3);font-size:14px;}
 
-  /* Tab Bar */
-  .tab-bar {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: rgba(255,255,255,0.85);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-top: 0.5px solid var(--border);
-    display: flex;
-    justify-content: space-around;
-    padding: 8px 0 calc(var(--safe-bottom) + 4px);
-    z-index: 10;
-  }
-  @media (prefers-color-scheme: dark) {
-    .tab-bar { background: rgba(28,28,30,0.85); }
-  }
-  .tab {
-    display: flex; flex-direction: column; align-items: center; gap: 3px;
-    cursor: pointer; flex: 1; padding: 2px 0;
-  }
-  .tab-icon { font-size: 22px; }
-  .tab-lbl { font-size: 10px; font-weight: 500; color: var(--text3); }
-  .tab.active .tab-lbl { color: var(--accent); }
+  .tab-bar{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,0.88);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:0.5px solid var(--border);display:flex;justify-content:space-around;padding:8px 0 calc(var(--safe-bottom) + 4px);z-index:10;}
+  @media(prefers-color-scheme:dark){.tab-bar{background:rgba(28,28,30,0.88);}}
+  .tab{display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;flex:1;padding:2px 0;}
+  .tab-icon{font-size:22px;}
+  .tab-lbl{font-size:10px;font-weight:500;color:var(--text3);}
+  .tab.active .tab-lbl{color:var(--accent);}
 
-  /* Modal */
-  .modal-overlay {
-    position: fixed; inset: 0;
-    background: rgba(0,0,0,0.5);
-    z-index: 100;
-    display: flex;
-    align-items: flex-end;
-    opacity: 0; pointer-events: none;
-    transition: opacity 0.25s;
-  }
-  .modal-overlay.open { opacity: 1; pointer-events: all; }
-  .modal {
-    background: var(--bg2);
-    border-radius: 20px 20px 0 0;
-    padding: 20px 20px calc(var(--safe-bottom) + 24px);
-    width: 100%;
-    transform: translateY(100%);
-    transition: transform 0.3s cubic-bezier(0.32,0.72,0,1);
-  }
-  .modal-overlay.open .modal { transform: translateY(0); }
-  .modal-handle { width: 36px; height: 4px; background: var(--bg3); border-radius: 2px; margin: 0 auto 16px; }
-  .modal-title { font-size: 17px; font-weight: 700; margin-bottom: 16px; color: var(--text); }
-  .modal input, .modal select {
-    width: 100%; padding: 12px 14px;
-    background: var(--bg3);
-    border: none; border-radius: 10px;
-    font-size: 15px; color: var(--text);
-    font-family: inherit;
-    margin-bottom: 10px;
-    outline: none;
-    -webkit-appearance: none;
-  }
-  .modal input::placeholder { color: var(--text3); }
-  .cat-row { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
-  .cat-btn {
-    padding: 6px 14px;
-    border-radius: 20px;
-    font-size: 13px;
-    font-weight: 500;
-    border: 1.5px solid var(--border);
-    background: var(--bg3);
-    color: var(--text2);
-    cursor: pointer;
-    transition: all 0.15s;
-  }
-  .cat-btn.selected { border-color: var(--accent); background: rgba(88,86,214,0.1); color: var(--accent); }
-  .cat-btn[data-cat="school"].selected { border-color: var(--school); background: var(--school-bg); color: var(--school-text); }
-  .cat-btn[data-cat="ymca"].selected { border-color: var(--ymca); background: var(--ymca-bg); color: var(--ymca-text); }
-  .cat-btn[data-cat="personal"].selected { border-color: var(--personal); background: var(--personal-bg); color: var(--personal-text); }
-  .submit-btn {
-    width: 100%; padding: 14px;
-    background: var(--accent);
-    color: #fff; border: none;
-    border-radius: 12px;
-    font-size: 16px; font-weight: 600;
-    cursor: pointer; font-family: inherit;
-    transition: opacity 0.1s;
-  }
-  .submit-btn:active { opacity: 0.85; }
+  /* Modals */
+  .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:100;display:flex;align-items:flex-end;opacity:0;pointer-events:none;transition:opacity 0.25s;}
+  .modal-overlay.open{opacity:1;pointer-events:all;}
+  .modal{background:var(--bg2);border-radius:20px 20px 0 0;padding:20px 20px calc(var(--safe-bottom) + 24px);width:100%;transform:translateY(100%);transition:transform 0.3s cubic-bezier(0.32,0.72,0,1);max-height:88vh;overflow-y:auto;}
+  .modal-overlay.open .modal{transform:translateY(0);}
+  .modal-handle{width:36px;height:4px;background:var(--bg3);border-radius:2px;margin:0 auto 16px;}
+  .modal-title{font-size:17px;font-weight:700;margin-bottom:16px;color:var(--text);}
+  .modal input,.modal select{width:100%;padding:12px 14px;background:var(--bg3);border:none;border-radius:10px;font-size:15px;color:var(--text);font-family:inherit;margin-bottom:10px;outline:none;-webkit-appearance:none;}
+  .modal input::placeholder{color:var(--text3);}
+  .modal-label{font-size:13px;color:var(--text2);margin-bottom:8px;font-weight:500;}
+  .cat-row{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;}
+  .cat-btn{padding:6px 14px;border-radius:20px;font-size:13px;font-weight:500;border:1.5px solid var(--border);background:var(--bg3);color:var(--text2);cursor:pointer;transition:all 0.15s;}
+  .cat-btn.selected{border-color:var(--accent);background:rgba(88,86,214,0.1);color:var(--accent);}
+  .cat-btn[data-cat="school"].selected{border-color:var(--school);background:var(--school-bg);color:var(--school-text);}
+  .cat-btn[data-cat="ymca"].selected{border-color:var(--ymca);background:var(--ymca-bg);color:var(--ymca-text);}
+  .cat-btn[data-cat="personal"].selected{border-color:var(--personal);background:var(--personal-bg);color:var(--personal-text);}
+  .submit-btn{width:100%;padding:14px;background:var(--accent);color:#fff;border:none;border-radius:12px;font-size:16px;font-weight:600;cursor:pointer;font-family:inherit;transition:opacity 0.1s;margin-top:4px;}
+  .submit-btn:active{opacity:0.85;}
+  .submit-btn.ymca-btn{background:var(--ymca);}
+  .divider{border:none;border-top:0.5px solid var(--border);margin:16px 0;}
+
+  /* Import */
+  .import-area{border:2px dashed var(--border);border-radius:12px;padding:22px 16px;text-align:center;cursor:pointer;margin-bottom:12px;transition:border-color 0.2s;}
+  .import-area:active{border-color:var(--accent);}
+  .import-icon{font-size:32px;margin-bottom:6px;}
+  .import-text{font-size:14px;color:var(--text2);}
+  .import-sub{font-size:12px;color:var(--text3);margin-top:4px;}
+  .status-msg{font-size:13px;text-align:center;padding:10px 12px;border-radius:10px;margin-bottom:10px;}
+  .status-msg.loading{background:var(--ymca-bg);color:var(--ymca-text);}
+  .status-msg.success{background:var(--school-bg);color:var(--school-text);}
+  .status-msg.error{background:var(--personal-bg);color:var(--personal-text);}
+  .parsed-list{background:var(--bg3);border-radius:10px;padding:8px 12px;max-height:180px;overflow-y:auto;margin-bottom:12px;}
+  .parsed-item{font-size:13px;color:var(--text);padding:5px 0;border-bottom:0.5px solid var(--border);display:flex;justify-content:space-between;gap:8px;}
+  .parsed-item:last-child{border-bottom:none;}
 </style>
 </head>
 <body>
 <div class="app">
   <div class="status-bar"></div>
-
   <div class="header">
     <span class="header-title">スケジュール</span>
-    <button class="add-btn" onclick="openModal()">+</button>
+    <div class="header-btns">
+      <button class="icon-btn" onclick="openImportModal()" title="読み込む">📄</button>
+      <button class="icon-btn accent" onclick="openAddModal()">+</button>
+    </div>
   </div>
 
   <div class="filters">
-    <div class="filter-chip active" data-filter="all" onclick="setFilter(this,'all')">すべて</div>
-    <div class="filter-chip school" data-filter="school" onclick="setFilter(this,'school')">学校</div>
-    <div class="filter-chip ymca" data-filter="ymca" onclick="setFilter(this,'ymca')">YMCA</div>
-    <div class="filter-chip" data-filter="personal" onclick="setFilter(this,'personal')">個人</div>
+    <div class="filter-chip active" onclick="setFilter(this,'all')">すべて</div>
+    <div class="filter-chip school" onclick="setFilter(this,'school')">学校</div>
+    <div class="filter-chip ymca" onclick="setFilter(this,'ymca')">YMCA</div>
+    <div class="filter-chip" onclick="setFilter(this,'personal')">個人</div>
   </div>
 
   <div class="cal-wrap">
@@ -344,184 +169,288 @@
   </div>
 
   <div class="tab-bar">
-    <div class="tab active">
-      <span class="tab-icon">📅</span>
-      <span class="tab-lbl">カレンダー</span>
-    </div>
-    <div class="tab">
-      <span class="tab-icon">📋</span>
-      <span class="tab-lbl">リスト</span>
-    </div>
-    <div class="tab">
-      <span class="tab-icon">🔔</span>
-      <span class="tab-lbl">通知</span>
-    </div>
-    <div class="tab">
-      <span class="tab-icon">⚙️</span>
-      <span class="tab-lbl">設定</span>
-    </div>
+    <div class="tab active"><span class="tab-icon">📅</span><span class="tab-lbl">カレンダー</span></div>
+    <div class="tab" onclick="openAddModal()"><span class="tab-icon">➕</span><span class="tab-lbl">追加</span></div>
+    <div class="tab" onclick="openImportModal()"><span class="tab-icon">📄</span><span class="tab-lbl">読み込み</span></div>
+    <div class="tab"><span class="tab-icon">⚙️</span><span class="tab-lbl">設定</span></div>
   </div>
 </div>
 
 <!-- Add Modal -->
-<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+<div class="modal-overlay" id="addModal" onclick="overlayClose(event,'addModal')">
   <div class="modal">
     <div class="modal-handle"></div>
     <div class="modal-title">新しいイベント</div>
     <input type="text" id="evtName" placeholder="イベント名">
     <input type="date" id="evtDate">
     <input type="time" id="evtTime" value="09:00">
-    <div style="font-size:13px;color:var(--text2);margin-bottom:8px;font-weight:500;">カテゴリ</div>
+    <div class="modal-label">カテゴリ</div>
     <div class="cat-row">
-      <div class="cat-btn selected" data-cat="school" onclick="selectCat(this)">学校</div>
-      <div class="cat-btn" data-cat="ymca" onclick="selectCat(this)">YMCA</div>
-      <div class="cat-btn" data-cat="personal" onclick="selectCat(this)">個人</div>
+      <div class="cat-btn selected" data-cat="school" onclick="selectCat(this,'addModal')">学校</div>
+      <div class="cat-btn" data-cat="ymca" onclick="selectCat(this,'addModal')">YMCA</div>
+      <div class="cat-btn" data-cat="personal" onclick="selectCat(this,'addModal')">個人</div>
     </div>
     <button class="submit-btn" onclick="addEvent()">追加する</button>
   </div>
 </div>
 
-<script>
-const cats = {
-  school:   { label:'学校', color:'#34c759', bg:'var(--school-bg)', text:'var(--school-text)' },
-  ymca:     { label:'YMCA', color:'#007aff', bg:'var(--ymca-bg)',   text:'var(--ymca-text)' },
-  personal: { label:'個人', color:'#ff6b35', bg:'var(--personal-bg)', text:'var(--personal-text)' },
-};
+<!-- Import Modal -->
+<div class="modal-overlay" id="importModal" onclick="overlayClose(event,'importModal')">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title">📄 予定を読み込む</div>
 
-let events = [
-  { date:'2026-05-01', name:'家庭確認②', cat:'school' },
-  { date:'2026-05-07', name:'個人面談① ・ 尿検査2次', cat:'school' },
-  { date:'2026-05-08', name:'個人面談② ・ 新林ランド ・ 視力', cat:'school' },
-  { date:'2026-05-09', name:'YMCA', cat:'ymca' },
-  { date:'2026-05-12', name:'個人面談③', cat:'school' },
-  { date:'2026-05-13', name:'個人面談④', cat:'school' },
-  { date:'2026-05-15', name:'委員会', cat:'school' },
-  { date:'2026-05-16', name:'YMCA', cat:'ymca' },
-  { date:'2026-05-18', name:'新林ランド', cat:'school' },
-  { date:'2026-05-20', name:'聴力検査', cat:'school' },
-  { date:'2026-05-21', name:'歯科検診', cat:'school' },
-  { date:'2026-05-22', name:'八ヶ岳保護者説明会 15:00〜', cat:'school' },
-  { date:'2026-05-23', name:'YMCA', cat:'ymca' },
-  { date:'2026-05-25', name:'新林ランド ・ 一斉下校訓練', cat:'school' },
-  { date:'2026-05-26', name:'火災避難訓練', cat:'school' },
-  { date:'2026-05-28', name:'水泳', cat:'school' },
-  { date:'2026-05-29', name:'クラブ活動', cat:'school' },
-  { date:'2026-05-30', name:'YMCA', cat:'ymca' },
-  { date:'2026-06-04', name:'水泳学習', cat:'school' },
-  { date:'2026-06-05', name:'委員会活動', cat:'school' },
-  { date:'2026-06-10', name:'内科検診', cat:'school' },
-  { date:'2026-06-18', name:'八ヶ岳体験教室（1日目）', cat:'school' },
-  { date:'2026-06-19', name:'八ヶ岳体験教室（2日目）', cat:'school' },
-  { date:'2026-06-22', name:'地震津波引き渡し訓練', cat:'school' },
-  { date:'2026-06-25', name:'学校公開日（2〜3時間目）', cat:'school' },
-  { date:'2026-06-26', name:'学校公開日 ・ クラブ活動', cat:'school' },
+    <div class="modal-label">PDFや画像から自動読み取り</div>
+    <div class="import-area" onclick="document.getElementById('fileInput').click()">
+      <div class="import-icon">📎</div>
+      <div class="import-text">タップしてファイルを選択</div>
+      <div class="import-sub">学年だより・YMCA予定のPDF・画像に対応</div>
+    </div>
+    <input type="file" id="fileInput" accept=".pdf,image/*" style="display:none" onchange="handleFile(event)">
+
+    <div id="importStatus" style="display:none;"></div>
+
+    <div id="parsedPreview" style="display:none;">
+      <div class="modal-label">読み取り結果を確認</div>
+      <div class="parsed-list" id="parsedList"></div>
+      <div class="modal-label">カテゴリ</div>
+      <div class="cat-row" id="importCatRow">
+        <div class="cat-btn selected" data-cat="school" onclick="selectCat(this,'importCatRow')">学校</div>
+        <div class="cat-btn" data-cat="ymca" onclick="selectCat(this,'importCatRow')">YMCA</div>
+        <div class="cat-btn" data-cat="personal" onclick="selectCat(this,'importCatRow')">個人</div>
+      </div>
+      <button class="submit-btn" onclick="importParsed()">カレンダーに追加する</button>
+    </div>
+
+    <hr class="divider">
+
+    <div class="modal-label">YMCAの予定を手動で追加</div>
+    <input type="text" id="ymcaName" placeholder="例：YMCA スイミング" value="YMCA">
+    <input type="date" id="ymcaDate">
+    <button class="submit-btn ymca-btn" onclick="addYmca()">YMCAイベントを追加</button>
+  </div>
+</div>
+
+<script>
+const STORAGE_KEY='sched_v3';
+const cats={
+  school:{label:'学校',color:'#34c759',bg:'var(--school-bg)',text:'var(--school-text)'},
+  ymca:  {label:'YMCA',color:'#007aff',bg:'var(--ymca-bg)',  text:'var(--ymca-text)'},
+  personal:{label:'個人',color:'#ff6b35',bg:'var(--personal-bg)',text:'var(--personal-text)'},
+};
+const defaultEvents=[
+  {id:'d1', date:'2026-05-01',name:'家庭確認②',cat:'school'},
+  {id:'d2', date:'2026-05-07',name:'個人面談① ・ 尿検査2次',cat:'school'},
+  {id:'d3', date:'2026-05-08',name:'個人面談② ・ 新林ランド ・ 視力',cat:'school'},
+  {id:'d4', date:'2026-05-09',name:'YMCA',cat:'ymca'},
+  {id:'d5', date:'2026-05-12',name:'個人面談③',cat:'school'},
+  {id:'d6', date:'2026-05-13',name:'個人面談④',cat:'school'},
+  {id:'d7', date:'2026-05-15',name:'委員会',cat:'school'},
+  {id:'d8', date:'2026-05-16',name:'YMCA',cat:'ymca'},
+  {id:'d9', date:'2026-05-18',name:'新林ランド',cat:'school'},
+  {id:'d10',date:'2026-05-20',name:'聴力検査',cat:'school'},
+  {id:'d11',date:'2026-05-21',name:'歯科検診',cat:'school'},
+  {id:'d12',date:'2026-05-22',name:'八ヶ岳保護者説明会 15:00〜',cat:'school'},
+  {id:'d13',date:'2026-05-23',name:'YMCA',cat:'ymca'},
+  {id:'d14',date:'2026-05-25',name:'新林ランド ・ 一斉下校訓練',cat:'school'},
+  {id:'d15',date:'2026-05-26',name:'火災避難訓練',cat:'school'},
+  {id:'d16',date:'2026-05-28',name:'水泳',cat:'school'},
+  {id:'d17',date:'2026-05-29',name:'クラブ活動',cat:'school'},
+  {id:'d18',date:'2026-05-30',name:'YMCA',cat:'ymca'},
+  {id:'d19',date:'2026-06-04',name:'水泳学習',cat:'school'},
+  {id:'d20',date:'2026-06-05',name:'委員会活動',cat:'school'},
+  {id:'d21',date:'2026-06-10',name:'内科検診',cat:'school'},
+  {id:'d22',date:'2026-06-18',name:'八ヶ岳体験教室（1日目）',cat:'school'},
+  {id:'d23',date:'2026-06-19',name:'八ヶ岳体験教室（2日目）',cat:'school'},
+  {id:'d24',date:'2026-06-22',name:'地震津波引き渡し訓練',cat:'school'},
+  {id:'d25',date:'2026-06-25',name:'学校公開日（2〜3時間目）',cat:'school'},
+  {id:'d26',date:'2026-06-26',name:'学校公開日 ・ クラブ活動',cat:'school'},
 ];
 
-const today = new Date(2026,4,5);
-let viewYear = 2026, viewMonth = 4;
-let selectedDate = new Date(today);
-let activeFilter = 'all';
+function loadEvents(){try{const s=localStorage.getItem(STORAGE_KEY);return s?JSON.parse(s):[...defaultEvents];}catch{return[...defaultEvents];}}
+function saveEvents(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(events));}catch{}}
 
-function fmtDate(d) {
-  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
-}
-function getEventsForDate(ds) {
-  return events.filter(e => e.date === ds && (activeFilter==='all' || e.cat===activeFilter));
-}
+let events=loadEvents();
+const today=new Date();
+let viewYear=2026,viewMonth=4;
+let selectedDate=new Date(2026,4,5);
+let activeFilter='all';
+let parsedItems=[];
+let swipedCard=null;
 
-function renderCal() {
-  const months = ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
-  document.getElementById('monthLabel').textContent = `${viewYear}年 ${months[viewMonth]}`;
-  const grid = document.getElementById('calGrid');
-  grid.innerHTML = '';
-  const first = new Date(viewYear,viewMonth,1).getDay();
-  const days = new Date(viewYear,viewMonth+1,0).getDate();
-  const prev = new Date(viewYear,viewMonth,0).getDate();
+function uid(){return'e'+Date.now()+Math.random().toString(36).slice(2,5);}
+function fmtDate(d){return`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;}
+
+// ---- RENDER ----
+function renderCal(){
+  const ml=['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
+  document.getElementById('monthLabel').textContent=`${viewYear}年 ${ml[viewMonth]}`;
+  const grid=document.getElementById('calGrid');grid.innerHTML='';
+  const first=new Date(viewYear,viewMonth,1).getDay();
+  const days=new Date(viewYear,viewMonth+1,0).getDate();
+  const prev=new Date(viewYear,viewMonth,0).getDate();
   for(let i=0;i<first;i++){
-    const d=document.createElement('div'); d.className='day other';
+    const d=document.createElement('div');d.className='day other';
     d.innerHTML=`<div class="num">${prev-first+i+1}</div><div class="dots"></div>`;
     grid.appendChild(d);
   }
   for(let i=1;i<=days;i++){
     const ds=`${viewYear}-${String(viewMonth+1).padStart(2,'0')}-${String(i).padStart(2,'0')}`;
-    const d=document.createElement('div'); d.className='day';
-    const thisDate=new Date(viewYear,viewMonth,i);
-    if(fmtDate(thisDate)===fmtDate(today)) d.classList.add('today');
-    if(fmtDate(thisDate)===fmtDate(selectedDate)) d.classList.add('selected');
-    const evs=events.filter(e=>e.date===ds && (activeFilter==='all'||e.cat===activeFilter));
+    const d=document.createElement('div');d.className='day';
+    const td=new Date(viewYear,viewMonth,i);
+    if(fmtDate(td)===fmtDate(today))d.classList.add('today');
+    if(fmtDate(td)===fmtDate(selectedDate))d.classList.add('selected');
+    const evs=events.filter(e=>e.date===ds&&(activeFilter==='all'||e.cat===activeFilter));
     const colors=[...new Set(evs.map(e=>cats[e.cat].color))].slice(0,3);
-    const numEl=document.createElement('div'); numEl.className='num'; numEl.textContent=i;
-    const day=thisDate.getDay();
-    if(day===0 && !d.classList.contains('today')) numEl.style.color='#ff3b30';
-    if(day===6 && !d.classList.contains('today')) numEl.style.color='#007aff';
+    const numEl=document.createElement('div');numEl.className='num';numEl.textContent=i;
+    const dw=td.getDay();
+    if(dw===0&&!d.classList.contains('today'))numEl.style.color='#ff3b30';
+    if(dw===6&&!d.classList.contains('today'))numEl.style.color='#007aff';
     d.appendChild(numEl);
-    const dotsEl=document.createElement('div'); dotsEl.className='dots';
-    colors.forEach(c=>{ const dot=document.createElement('div'); dot.className='dot'; dot.style.background=c; dotsEl.appendChild(dot); });
-    d.appendChild(dotsEl);
-    d.addEventListener('click',()=>{ selectedDate=new Date(viewYear,viewMonth,i); renderCal(); renderEvents(); });
+    const dots=document.createElement('div');dots.className='dots';
+    colors.forEach(c=>{const dot=document.createElement('div');dot.className='dot';dot.style.background=c;dots.appendChild(dot);});
+    d.appendChild(dots);
+    d.addEventListener('click',()=>{selectedDate=new Date(viewYear,viewMonth,i);renderCal();renderEvents();});
     grid.appendChild(d);
   }
 }
 
-function renderEvents() {
+function renderEvents(){
   const ds=fmtDate(selectedDate);
-  const evs=getEventsForDate(ds);
+  const evs=events.filter(e=>e.date===ds&&(activeFilter==='all'||e.cat===activeFilter));
   const list=document.getElementById('eventList');
   const hdr=document.getElementById('sectionHeader');
-  const isToday=ds===fmtDate(today);
-  if(isToday) hdr.textContent='今日のイベント';
-  else hdr.textContent=`${selectedDate.getMonth()+1}月${selectedDate.getDate()}日のイベント`;
-  if(!evs.length){ list.innerHTML='<div class="empty-msg">この日のイベントはありません</div>'; return; }
-  list.innerHTML=evs.map(e=>{
+  hdr.textContent=fmtDate(selectedDate)===fmtDate(today)?'今日のイベント':`${selectedDate.getMonth()+1}月${selectedDate.getDate()}日のイベント`;
+  if(!evs.length){list.innerHTML='<div class="empty-msg">この日のイベントはありません</div>';return;}
+  list.innerHTML='';
+  evs.forEach(e=>{
     const c=cats[e.cat];
-    return `<div class="event-card">
-      <div class="event-bar" style="background:${c.color};"></div>
+    const card=document.createElement('div');
+    card.className='event-card';
+    const inner=document.createElement('div');
+    inner.className='event-inner';
+    inner.innerHTML=`<div class="event-bar" style="background:${c.color};"></div>
       <div class="event-body">
         <div class="event-name">${e.name}</div>
         <div class="event-meta">
           <span class="badge" style="background:${c.bg};color:${c.text};">${c.label}</span>
+          ${e.time?`<span style="font-size:12px;color:var(--text3);">${e.time}</span>`:''}
         </div>
-      </div>
-    </div>`;
-  }).join('');
+      </div>`;
+    const del=document.createElement('button');
+    del.className='delete-reveal';
+    del.innerHTML='<span>🗑️</span><small>削除</small>';
+    del.onclick=()=>deleteEvent(e.id);
+    card.appendChild(inner);
+    card.appendChild(del);
+    // swipe
+    let sx=0;
+    inner.addEventListener('touchstart',ev=>{sx=ev.touches[0].clientX;if(swipedCard&&swipedCard!==card){swipedCard.classList.remove('swiped');swipedCard=null;}},{passive:true});
+    inner.addEventListener('touchend',ev=>{
+      const dx=ev.changedTouches[0].clientX-sx;
+      if(dx<-40){card.classList.add('swiped');swipedCard=card;}
+      else if(dx>20){card.classList.remove('swiped');swipedCard=null;}
+    },{passive:true});
+    list.appendChild(card);
+  });
 }
 
-function setFilter(el, f) {
-  activeFilter=f;
-  document.querySelectorAll('.filter-chip').forEach(c=>c.classList.remove('active'));
-  el.classList.add('active');
-  renderCal(); renderEvents();
-}
+// ---- ACTIONS ----
+function setFilter(el,f){activeFilter=f;document.querySelectorAll('.filter-chip').forEach(c=>c.classList.remove('active'));el.classList.add('active');renderCal();renderEvents();}
+function changeMonth(dir){viewMonth+=dir;if(viewMonth<0){viewMonth=11;viewYear--;}if(viewMonth>11){viewMonth=0;viewYear++;}renderCal();renderEvents();}
+function deleteEvent(id){if(!confirm('削除しますか？'))return;events=events.filter(e=>e.id!==id);saveEvents();renderCal();renderEvents();}
 
-function changeMonth(dir) {
-  viewMonth+=dir;
-  if(viewMonth<0){ viewMonth=11; viewYear--; }
-  if(viewMonth>11){ viewMonth=0; viewYear++; }
-  renderCal(); renderEvents();
-}
-
-function openModal() {
-  document.getElementById('evtDate').value=fmtDate(selectedDate);
-  document.getElementById('modalOverlay').classList.add('open');
-}
-function closeModal() { document.getElementById('modalOverlay').classList.remove('open'); }
-function handleOverlayClick(e) { if(e.target===document.getElementById('modalOverlay')) closeModal(); }
-
-function selectCat(el) {
-  document.querySelectorAll('.cat-btn').forEach(b=>b.classList.remove('selected'));
+// ---- ADD MODAL ----
+function openAddModal(){document.getElementById('evtDate').value=fmtDate(selectedDate);document.getElementById('addModal').classList.add('open');}
+function overlayClose(e,id){if(e.target===document.getElementById(id))document.getElementById(id).classList.remove('open');}
+function selectCat(el,rowId){
+  const row=document.getElementById(rowId)||el.closest('.cat-row');
+  (row?row:el.closest('.cat-row')).querySelectorAll('.cat-btn').forEach(b=>b.classList.remove('selected'));
   el.classList.add('selected');
 }
-function addEvent() {
-  const name=document.getElementById('evtName').value.trim();
-  if(!name) return;
+function addEvent(){
+  const name=document.getElementById('evtName').value.trim();if(!name)return;
   const date=document.getElementById('evtDate').value;
-  const cat=document.querySelector('.cat-btn.selected').dataset.cat;
-  events.push({date,name,cat});
-  closeModal(); renderCal(); renderEvents();
+  const time=document.getElementById('evtTime').value;
+  const cat=document.querySelector('#addModal .cat-btn.selected').dataset.cat;
+  events.push({id:uid(),date,name,time,cat});
+  saveEvents();
+  document.getElementById('addModal').classList.remove('open');
   document.getElementById('evtName').value='';
+  renderCal();renderEvents();
 }
 
-renderCal(); renderEvents();
+// ---- IMPORT MODAL ----
+function openImportModal(){
+  document.getElementById('ymcaDate').value=fmtDate(selectedDate);
+  document.getElementById('importStatus').style.display='none';
+  document.getElementById('parsedPreview').style.display='none';
+  document.getElementById('importModal').classList.add('open');
+}
+
+async function handleFile(event){
+  const file=event.target.files[0];if(!file)return;
+  const st=document.getElementById('importStatus');
+  st.style.display='block';st.className='status-msg loading';st.textContent='📖 ファイルを読み取り中...';
+  document.getElementById('parsedPreview').style.display='none';
+  try{
+    const b64=await toBase64(file);
+    st.textContent='🤖 AIが予定を解析中...';
+    const content=[];
+    if(file.type.startsWith('image/')){
+      content.push({type:'image',source:{type:'base64',media_type:file.type,data:b64}});
+    }else{
+      content.push({type:'document',source:{type:'base64',media_type:'application/pdf',data:b64}});
+    }
+    content.push({type:'text',text:`このファイルから行事・イベントの予定を全て抽出してください。
+JSON形式のみで返してください（前置き・説明文は不要）。
+形式：[{"date":"YYYY-MM-DD","name":"イベント名"},...]
+・日付は2026年として解釈してください
+・月と日が両方わかるものだけ含めてください`});
+
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content}]})
+    });
+    const data=await res.json();
+    const text=data.content?.map(b=>b.text||'').join('');
+    const match=text.match(/\[[\s\S]*?\]/);
+    if(!match)throw new Error('no json');
+    parsedItems=JSON.parse(match[0]);
+    if(!parsedItems.length)throw new Error('empty');
+    st.className='status-msg success';st.textContent=`✅ ${parsedItems.length}件の予定を読み取りました`;
+    document.getElementById('parsedList').innerHTML=parsedItems.map(e=>`<div class="parsed-item"><span>${e.name}</span><span style="color:var(--text3);font-size:12px;">${e.date}</span></div>`).join('');
+    document.getElementById('parsedPreview').style.display='block';
+  }catch(err){
+    st.className='status-msg error';st.textContent='❌ 読み取りに失敗しました。手動で入力してください。';
+  }
+  event.target.value='';
+}
+
+function toBase64(file){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result.split(',')[1]);r.onerror=rej;r.readAsDataURL(file);});}
+
+function importParsed(){
+  const cat=document.querySelector('#importCatRow .cat-btn.selected')?.dataset.cat||'school';
+  parsedItems.forEach(e=>events.push({id:uid(),date:e.date,name:e.name,cat}));
+  saveEvents();
+  document.getElementById('importModal').classList.remove('open');
+  renderCal();renderEvents();
+  alert(`${parsedItems.length}件を追加しました！`);
+  parsedItems=[];
+}
+
+function addYmca(){
+  const name=document.getElementById('ymcaName').value.trim()||'YMCA';
+  const date=document.getElementById('ymcaDate').value;
+  if(!date){alert('日付を入力してください');return;}
+  events.push({id:uid(),date,name,cat:'ymca'});
+  saveEvents();
+  document.getElementById('importModal').classList.remove('open');
+  renderCal();renderEvents();
+}
+
+renderCal();renderEvents();
 </script>
 </body>
 </html>
