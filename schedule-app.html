@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
-  :root {
+  :root{
     --bg:#f5f5f7;--bg2:#ffffff;--bg3:#ececec;
     --text:#1a1a1e;--text2:#6e6e73;--text3:#aeaeb2;
     --border:rgba(0,0,0,0.08);
@@ -71,18 +71,18 @@
   .dot{width:5px;height:5px;border-radius:50%;}
 
   .content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:calc(var(--safe-bottom) + 70px);}
-  .section-header{padding:12px 20px 8px;font-size:12px;font-weight:600;color:var(--text2);letter-spacing:0.05em;}
+  .section-header{padding:12px 20px 6px;font-size:12px;font-weight:600;color:var(--text2);letter-spacing:0.05em;}
   .event-list{padding:0 16px;display:flex;flex-direction:column;gap:8px;}
 
-  /* Event card with swipe-to-delete */
   .event-card{background:var(--bg2);border-radius:var(--radius);display:flex;align-items:stretch;box-shadow:0 1px 3px rgba(0,0,0,0.05);overflow:hidden;position:relative;}
-  .event-inner{display:flex;gap:10px;align-items:center;padding:12px 14px;flex:1;min-width:0;transition:transform 0.25s cubic-bezier(0.32,0.72,0,1);}
+  .event-inner{display:flex;gap:10px;align-items:center;padding:12px 14px;flex:1;min-width:0;transition:transform 0.25s cubic-bezier(0.32,0.72,0,1);cursor:pointer;}
   .event-card.swiped .event-inner{transform:translateX(-72px);}
   .event-bar{width:4px;border-radius:3px;align-self:stretch;min-height:36px;flex-shrink:0;}
   .event-body{flex:1;min-width:0;}
   .event-name{font-size:14px;font-weight:600;color:var(--text);margin-bottom:4px;}
   .event-meta{display:flex;gap:6px;flex-wrap:wrap;align-items:center;}
   .badge{font-size:11px;padding:2px 8px;border-radius:20px;font-weight:500;}
+  .edit-hint{font-size:10px;color:var(--text3);margin-top:2px;}
   .delete-reveal{position:absolute;right:0;top:0;bottom:0;width:72px;background:#ff3b30;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;border:none;}
   .delete-reveal span{font-size:20px;}
   .delete-reveal small{font-size:11px;color:#fff;font-weight:600;}
@@ -98,11 +98,11 @@
   /* Modals */
   .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:100;display:flex;align-items:flex-end;opacity:0;pointer-events:none;transition:opacity 0.25s;}
   .modal-overlay.open{opacity:1;pointer-events:all;}
-  .modal{background:var(--bg2);border-radius:20px 20px 0 0;padding:20px 20px calc(var(--safe-bottom) + 24px);width:100%;transform:translateY(100%);transition:transform 0.3s cubic-bezier(0.32,0.72,0,1);max-height:88vh;overflow-y:auto;}
+  .modal{background:var(--bg2);border-radius:20px 20px 0 0;padding:20px 20px calc(var(--safe-bottom) + 24px);width:100%;transform:translateY(100%);transition:transform 0.3s cubic-bezier(0.32,0.72,0,1);max-height:90vh;overflow-y:auto;}
   .modal-overlay.open .modal{transform:translateY(0);}
   .modal-handle{width:36px;height:4px;background:var(--bg3);border-radius:2px;margin:0 auto 16px;}
   .modal-title{font-size:17px;font-weight:700;margin-bottom:16px;color:var(--text);}
-  .modal input,.modal select{width:100%;padding:12px 14px;background:var(--bg3);border:none;border-radius:10px;font-size:15px;color:var(--text);font-family:inherit;margin-bottom:10px;outline:none;-webkit-appearance:none;}
+  .modal input{width:100%;padding:12px 14px;background:var(--bg3);border:none;border-radius:10px;font-size:15px;color:var(--text);font-family:inherit;margin-bottom:10px;outline:none;-webkit-appearance:none;}
   .modal input::placeholder{color:var(--text3);}
   .modal-label{font-size:13px;color:var(--text2);margin-bottom:8px;font-weight:500;}
   .cat-row{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;}
@@ -113,11 +113,14 @@
   .cat-btn[data-cat="personal"].selected{border-color:var(--personal);background:var(--personal-bg);color:var(--personal-text);}
   .submit-btn{width:100%;padding:14px;background:var(--accent);color:#fff;border:none;border-radius:12px;font-size:16px;font-weight:600;cursor:pointer;font-family:inherit;transition:opacity 0.1s;margin-top:4px;}
   .submit-btn:active{opacity:0.85;}
+  .submit-btn.danger{background:#ff3b30;}
   .submit-btn.ymca-btn{background:var(--ymca);}
+  .btn-row{display:flex;gap:10px;margin-top:4px;}
+  .btn-row .submit-btn{margin-top:0;}
   .divider{border:none;border-top:0.5px solid var(--border);margin:16px 0;}
 
   /* Import */
-  .import-area{border:2px dashed var(--border);border-radius:12px;padding:22px 16px;text-align:center;cursor:pointer;margin-bottom:12px;transition:border-color 0.2s;}
+  .import-area{border:2px dashed var(--border);border-radius:12px;padding:22px 16px;text-align:center;cursor:pointer;margin-bottom:12px;}
   .import-area:active{border-color:var(--accent);}
   .import-icon{font-size:32px;margin-bottom:6px;}
   .import-text{font-size:14px;color:var(--text2);}
@@ -126,9 +129,12 @@
   .status-msg.loading{background:var(--ymca-bg);color:var(--ymca-text);}
   .status-msg.success{background:var(--school-bg);color:var(--school-text);}
   .status-msg.error{background:var(--personal-bg);color:var(--personal-text);}
-  .parsed-list{background:var(--bg3);border-radius:10px;padding:8px 12px;max-height:180px;overflow-y:auto;margin-bottom:12px;}
+  .parsed-list{background:var(--bg3);border-radius:10px;padding:8px 12px;max-height:160px;overflow-y:auto;margin-bottom:12px;}
   .parsed-item{font-size:13px;color:var(--text);padding:5px 0;border-bottom:0.5px solid var(--border);display:flex;justify-content:space-between;gap:8px;}
   .parsed-item:last-child{border-bottom:none;}
+
+  /* Edit modal note */
+  .edit-note{font-size:12px;color:var(--text3);background:var(--bg3);border-radius:8px;padding:8px 12px;margin-bottom:12px;line-height:1.5;}
 </style>
 </head>
 <body>
@@ -137,7 +143,7 @@
   <div class="header">
     <span class="header-title">スケジュール</span>
     <div class="header-btns">
-      <button class="icon-btn" onclick="openImportModal()" title="読み込む">📄</button>
+      <button class="icon-btn" onclick="openImportModal()">📄</button>
       <button class="icon-btn accent" onclick="openAddModal()">+</button>
     </div>
   </div>
@@ -176,21 +182,27 @@
   </div>
 </div>
 
-<!-- Add Modal -->
+<!-- Add / Edit Modal -->
 <div class="modal-overlay" id="addModal" onclick="overlayClose(event,'addModal')">
   <div class="modal">
     <div class="modal-handle"></div>
-    <div class="modal-title">新しいイベント</div>
+    <div class="modal-title" id="addModalTitle">新しいイベント</div>
+    <div class="edit-note" id="editNote" style="display:none;">
+      💡 名前を修正できます。「個人面談・尿検査」から「尿検査」だけ消したい場合は、名前の欄を直接書き換えてください。
+    </div>
     <input type="text" id="evtName" placeholder="イベント名">
     <input type="date" id="evtDate">
     <input type="time" id="evtTime" value="09:00">
     <div class="modal-label">カテゴリ</div>
-    <div class="cat-row">
-      <div class="cat-btn selected" data-cat="school" onclick="selectCat(this,'addModal')">学校</div>
-      <div class="cat-btn" data-cat="ymca" onclick="selectCat(this,'addModal')">YMCA</div>
-      <div class="cat-btn" data-cat="personal" onclick="selectCat(this,'addModal')">個人</div>
+    <div class="cat-row" id="addCatRow">
+      <div class="cat-btn selected" data-cat="school" onclick="selectCatIn('addCatRow',this)">学校</div>
+      <div class="cat-btn" data-cat="ymca" onclick="selectCatIn('addCatRow',this)">YMCA</div>
+      <div class="cat-btn" data-cat="personal" onclick="selectCatIn('addCatRow',this)">個人</div>
     </div>
-    <button class="submit-btn" onclick="addEvent()">追加する</button>
+    <div class="btn-row">
+      <button class="submit-btn danger" id="deleteBtn" style="display:none;" onclick="deleteEditingEvent()">削除</button>
+      <button class="submit-btn" id="saveBtn" onclick="saveEvent()">追加する</button>
+    </div>
   </div>
 </div>
 
@@ -209,30 +221,33 @@
     <input type="file" id="fileInput" accept=".pdf,image/*" style="display:none" onchange="handleFile(event)">
 
     <div id="importStatus" style="display:none;"></div>
-
     <div id="parsedPreview" style="display:none;">
       <div class="modal-label">読み取り結果を確認</div>
       <div class="parsed-list" id="parsedList"></div>
       <div class="modal-label">カテゴリ</div>
       <div class="cat-row" id="importCatRow">
-        <div class="cat-btn selected" data-cat="school" onclick="selectCat(this,'importCatRow')">学校</div>
-        <div class="cat-btn" data-cat="ymca" onclick="selectCat(this,'importCatRow')">YMCA</div>
-        <div class="cat-btn" data-cat="personal" onclick="selectCat(this,'importCatRow')">個人</div>
+        <div class="cat-btn selected" data-cat="school" onclick="selectCatIn('importCatRow',this)">学校</div>
+        <div class="cat-btn" data-cat="ymca" onclick="selectCatIn('importCatRow',this)">YMCA</div>
+        <div class="cat-btn" data-cat="personal" onclick="selectCatIn('importCatRow',this)">個人</div>
       </div>
       <button class="submit-btn" onclick="importParsed()">カレンダーに追加する</button>
     </div>
 
     <hr class="divider">
-
-    <div class="modal-label">YMCAの予定を手動で追加</div>
-    <input type="text" id="ymcaName" placeholder="例：YMCA スイミング" value="YMCA">
-    <input type="date" id="ymcaDate">
-    <button class="submit-btn ymca-btn" onclick="addYmca()">YMCAイベントを追加</button>
+    <div class="modal-label">手動でイベントを追加</div>
+    <input type="text" id="manualName" placeholder="イベント名（例：YMCA スイミング）">
+    <input type="date" id="manualDate">
+    <div class="cat-row" id="manualCatRow">
+      <div class="cat-btn selected" data-cat="school" onclick="selectCatIn('manualCatRow',this)">学校</div>
+      <div class="cat-btn" data-cat="ymca" onclick="selectCatIn('manualCatRow',this)">YMCA</div>
+      <div class="cat-btn" data-cat="personal" onclick="selectCatIn('manualCatRow',this)">個人</div>
+    </div>
+    <button class="submit-btn" onclick="addManual()">イベントを追加</button>
   </div>
 </div>
 
 <script>
-const STORAGE_KEY='sched_v3';
+const STORAGE_KEY='sched_v4';
 const cats={
   school:{label:'学校',color:'#34c759',bg:'var(--school-bg)',text:'var(--school-text)'},
   ymca:  {label:'YMCA',color:'#007aff',bg:'var(--ymca-bg)',  text:'var(--ymca-text)'},
@@ -240,8 +255,8 @@ const cats={
 };
 const defaultEvents=[
   {id:'d1', date:'2026-05-01',name:'家庭確認②',cat:'school'},
-  {id:'d2', date:'2026-05-07',name:'個人面談① ・ 尿検査2次',cat:'school'},
-  {id:'d3', date:'2026-05-08',name:'個人面談② ・ 新林ランド ・ 視力',cat:'school'},
+  {id:'d2', date:'2026-05-07',name:'個人面談①・尿検査2次',cat:'school'},
+  {id:'d3', date:'2026-05-08',name:'個人面談②・新林ランド・視力',cat:'school'},
   {id:'d4', date:'2026-05-09',name:'YMCA',cat:'ymca'},
   {id:'d5', date:'2026-05-12',name:'個人面談③',cat:'school'},
   {id:'d6', date:'2026-05-13',name:'個人面談④',cat:'school'},
@@ -252,7 +267,7 @@ const defaultEvents=[
   {id:'d11',date:'2026-05-21',name:'歯科検診',cat:'school'},
   {id:'d12',date:'2026-05-22',name:'八ヶ岳保護者説明会 15:00〜',cat:'school'},
   {id:'d13',date:'2026-05-23',name:'YMCA',cat:'ymca'},
-  {id:'d14',date:'2026-05-25',name:'新林ランド ・ 一斉下校訓練',cat:'school'},
+  {id:'d14',date:'2026-05-25',name:'新林ランド・一斉下校訓練',cat:'school'},
   {id:'d15',date:'2026-05-26',name:'火災避難訓練',cat:'school'},
   {id:'d16',date:'2026-05-28',name:'水泳',cat:'school'},
   {id:'d17',date:'2026-05-29',name:'クラブ活動',cat:'school'},
@@ -264,7 +279,7 @@ const defaultEvents=[
   {id:'d23',date:'2026-06-19',name:'八ヶ岳体験教室（2日目）',cat:'school'},
   {id:'d24',date:'2026-06-22',name:'地震津波引き渡し訓練',cat:'school'},
   {id:'d25',date:'2026-06-25',name:'学校公開日（2〜3時間目）',cat:'school'},
-  {id:'d26',date:'2026-06-26',name:'学校公開日 ・ クラブ活動',cat:'school'},
+  {id:'d26',date:'2026-06-26',name:'学校公開日・クラブ活動',cat:'school'},
 ];
 
 function loadEvents(){try{const s=localStorage.getItem(STORAGE_KEY);return s?JSON.parse(s):[...defaultEvents];}catch{return[...defaultEvents];}}
@@ -277,6 +292,7 @@ let selectedDate=new Date(2026,4,5);
 let activeFilter='all';
 let parsedItems=[];
 let swipedCard=null;
+let editingId=null; // null=新規, id=編集中
 
 function uid(){return'e'+Date.now()+Math.random().toString(36).slice(2,5);}
 function fmtDate(d){return`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;}
@@ -327,130 +343,122 @@ function renderEvents(){
     const c=cats[e.cat];
     const card=document.createElement('div');
     card.className='event-card';
+
     const inner=document.createElement('div');
     inner.className='event-inner';
-    inner.innerHTML=`<div class="event-bar" style="background:${c.color};"></div>
+    inner.innerHTML=`
+      <div class="event-bar" style="background:${c.color};"></div>
       <div class="event-body">
         <div class="event-name">${e.name}</div>
         <div class="event-meta">
           <span class="badge" style="background:${c.bg};color:${c.text};">${c.label}</span>
           ${e.time?`<span style="font-size:12px;color:var(--text3);">${e.time}</span>`:''}
         </div>
+        <div class="edit-hint">タップして編集</div>
       </div>`;
+    inner.addEventListener('click',()=>{
+      if(card.classList.contains('swiped')){card.classList.remove('swiped');swipedCard=null;return;}
+      openEditModal(e.id);
+    });
+
     const del=document.createElement('button');
     del.className='delete-reveal';
     del.innerHTML='<span>🗑️</span><small>削除</small>';
     del.onclick=()=>deleteEvent(e.id);
+
     card.appendChild(inner);
     card.appendChild(del);
-    // swipe
+
+    // swipe to reveal delete
     let sx=0;
-    inner.addEventListener('touchstart',ev=>{sx=ev.touches[0].clientX;if(swipedCard&&swipedCard!==card){swipedCard.classList.remove('swiped');swipedCard=null;}},{passive:true});
+    inner.addEventListener('touchstart',ev=>{
+      sx=ev.touches[0].clientX;
+      if(swipedCard&&swipedCard!==card){swipedCard.classList.remove('swiped');swipedCard=null;}
+    },{passive:true});
     inner.addEventListener('touchend',ev=>{
       const dx=ev.changedTouches[0].clientX-sx;
       if(dx<-40){card.classList.add('swiped');swipedCard=card;}
       else if(dx>20){card.classList.remove('swiped');swipedCard=null;}
     },{passive:true});
+
     list.appendChild(card);
   });
 }
 
-// ---- ACTIONS ----
+// ---- HELPERS ----
 function setFilter(el,f){activeFilter=f;document.querySelectorAll('.filter-chip').forEach(c=>c.classList.remove('active'));el.classList.add('active');renderCal();renderEvents();}
 function changeMonth(dir){viewMonth+=dir;if(viewMonth<0){viewMonth=11;viewYear--;}if(viewMonth>11){viewMonth=0;viewYear++;}renderCal();renderEvents();}
-function deleteEvent(id){if(!confirm('削除しますか？'))return;events=events.filter(e=>e.id!==id);saveEvents();renderCal();renderEvents();}
+function overlayClose(e,id){if(e.target===document.getElementById(id))document.getElementById(id).classList.remove('open');}
+function selectCatIn(rowId,el){document.getElementById(rowId).querySelectorAll('.cat-btn').forEach(b=>b.classList.remove('selected'));el.classList.add('selected');}
 
 // ---- ADD MODAL ----
-function openAddModal(){document.getElementById('evtDate').value=fmtDate(selectedDate);document.getElementById('addModal').classList.add('open');}
-function overlayClose(e,id){if(e.target===document.getElementById(id))document.getElementById(id).classList.remove('open');}
-function selectCat(el,rowId){
-  const row=document.getElementById(rowId)||el.closest('.cat-row');
-  (row?row:el.closest('.cat-row')).querySelectorAll('.cat-btn').forEach(b=>b.classList.remove('selected'));
-  el.classList.add('selected');
+function openAddModal(){
+  editingId=null;
+  document.getElementById('addModalTitle').textContent='新しいイベント';
+  document.getElementById('editNote').style.display='none';
+  document.getElementById('evtName').value='';
+  document.getElementById('evtDate').value=fmtDate(selectedDate);
+  document.getElementById('evtTime').value='09:00';
+  document.getElementById('deleteBtn').style.display='none';
+  document.getElementById('saveBtn').textContent='追加する';
+  // reset cat
+  document.getElementById('addCatRow').querySelectorAll('.cat-btn').forEach((b,i)=>{b.classList.toggle('selected',i===0);});
+  document.getElementById('addModal').classList.add('open');
 }
-function addEvent(){
-  const name=document.getElementById('evtName').value.trim();if(!name)return;
+
+function openEditModal(id){
+  const e=events.find(ev=>ev.id===id);
+  if(!e)return;
+  editingId=id;
+  document.getElementById('addModalTitle').textContent='イベントを編集';
+  document.getElementById('editNote').style.display='block';
+  document.getElementById('evtName').value=e.name;
+  document.getElementById('evtDate').value=e.date;
+  document.getElementById('evtTime').value=e.time||'09:00';
+  document.getElementById('deleteBtn').style.display='block';
+  document.getElementById('saveBtn').textContent='保存する';
+  // set cat
+  document.getElementById('addCatRow').querySelectorAll('.cat-btn').forEach(b=>{
+    b.classList.toggle('selected',b.dataset.cat===e.cat);
+  });
+  document.getElementById('addModal').classList.add('open');
+}
+
+function saveEvent(){
+  const name=document.getElementById('evtName').value.trim();
+  if(!name){alert('イベント名を入力してください');return;}
   const date=document.getElementById('evtDate').value;
   const time=document.getElementById('evtTime').value;
-  const cat=document.querySelector('#addModal .cat-btn.selected').dataset.cat;
-  events.push({id:uid(),date,name,time,cat});
+  const cat=document.querySelector('#addCatRow .cat-btn.selected').dataset.cat;
+  if(editingId){
+    const ev=events.find(e=>e.id===editingId);
+    if(ev){ev.name=name;ev.date=date;ev.time=time;ev.cat=cat;}
+  } else {
+    events.push({id:uid(),date,name,time,cat});
+  }
   saveEvents();
   document.getElementById('addModal').classList.remove('open');
-  document.getElementById('evtName').value='';
+  renderCal();renderEvents();
+}
+
+function deleteEvent(id){
+  if(!confirm('削除しますか？'))return;
+  events=events.filter(e=>e.id!==id);
+  saveEvents();renderCal();renderEvents();
+}
+
+function deleteEditingEvent(){
+  if(!editingId)return;
+  if(!confirm('削除しますか？'))return;
+  events=events.filter(e=>e.id!==editingId);
+  saveEvents();
+  document.getElementById('addModal').classList.remove('open');
   renderCal();renderEvents();
 }
 
 // ---- IMPORT MODAL ----
 function openImportModal(){
-  document.getElementById('ymcaDate').value=fmtDate(selectedDate);
+  document.getElementById('manualDate').value=fmtDate(selectedDate);
   document.getElementById('importStatus').style.display='none';
   document.getElementById('parsedPreview').style.display='none';
-  document.getElementById('importModal').classList.add('open');
-}
-
-async function handleFile(event){
-  const file=event.target.files[0];if(!file)return;
-  const st=document.getElementById('importStatus');
-  st.style.display='block';st.className='status-msg loading';st.textContent='📖 ファイルを読み取り中...';
-  document.getElementById('parsedPreview').style.display='none';
-  try{
-    const b64=await toBase64(file);
-    st.textContent='🤖 AIが予定を解析中...';
-    const content=[];
-    if(file.type.startsWith('image/')){
-      content.push({type:'image',source:{type:'base64',media_type:file.type,data:b64}});
-    }else{
-      content.push({type:'document',source:{type:'base64',media_type:'application/pdf',data:b64}});
-    }
-    content.push({type:'text',text:`このファイルから行事・イベントの予定を全て抽出してください。
-JSON形式のみで返してください（前置き・説明文は不要）。
-形式：[{"date":"YYYY-MM-DD","name":"イベント名"},...]
-・日付は2026年として解釈してください
-・月と日が両方わかるものだけ含めてください`});
-
-    const res=await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content}]})
-    });
-    const data=await res.json();
-    const text=data.content?.map(b=>b.text||'').join('');
-    const match=text.match(/\[[\s\S]*?\]/);
-    if(!match)throw new Error('no json');
-    parsedItems=JSON.parse(match[0]);
-    if(!parsedItems.length)throw new Error('empty');
-    st.className='status-msg success';st.textContent=`✅ ${parsedItems.length}件の予定を読み取りました`;
-    document.getElementById('parsedList').innerHTML=parsedItems.map(e=>`<div class="parsed-item"><span>${e.name}</span><span style="color:var(--text3);font-size:12px;">${e.date}</span></div>`).join('');
-    document.getElementById('parsedPreview').style.display='block';
-  }catch(err){
-    st.className='status-msg error';st.textContent='❌ 読み取りに失敗しました。手動で入力してください。';
-  }
-  event.target.value='';
-}
-
-function toBase64(file){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result.split(',')[1]);r.onerror=rej;r.readAsDataURL(file);});}
-
-function importParsed(){
-  const cat=document.querySelector('#importCatRow .cat-btn.selected')?.dataset.cat||'school';
-  parsedItems.forEach(e=>events.push({id:uid(),date:e.date,name:e.name,cat}));
-  saveEvents();
-  document.getElementById('importModal').classList.remove('open');
-  renderCal();renderEvents();
-  alert(`${parsedItems.length}件を追加しました！`);
-  parsedItems=[];
-}
-
-function addYmca(){
-  const name=document.getElementById('ymcaName').value.trim()||'YMCA';
-  const date=document.getElementById('ymcaDate').value;
-  if(!date){alert('日付を入力してください');return;}
-  events.push({id:uid(),date,name,cat:'ymca'});
-  saveEvents();
-  document.getElementById('importModal').classList.remove('open');
-  renderCal();renderEvents();
-}
-
-renderCal();renderEvents();
-</script>
-</body>
-</html>
+  document.getElementById('importMo
