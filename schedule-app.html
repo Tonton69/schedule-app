@@ -461,4 +461,75 @@ function openImportModal(){
   document.getElementById('manualDate').value=fmtDate(selectedDate);
   document.getElementById('importStatus').style.display='none';
   document.getElementById('parsedPreview').style.display='none';
-  document.getElementById('importMo
+  document.getElementById('importModal').classList.add('open');
+}
+
+async function handleFile(ev){
+  const file=ev.target.files[0];if(!file)return;
+  const st=document.getElementById('importStatus');
+  st.style.display='block';st.className='status-msg loading';st.textContent='📖 ファイルを読み取り中...';
+  document.getElementById('parsedPreview').style.display='none';
+  try{
+    const b64=await toBase64(file);
+    st.textContent='🤖 AIが予定を解析中...';
+    const content=[];
+    if(file.type.startsWith('image/')){
+      content.push({type:'image',source:{type:'base64',media_type:file.type,data:b64}});
+    } else {
+      content.push({type:'document',source:{type:'base64',media_type:'application/pdf',data:b64}});
+    }
+    content.push({type:'text',text:`このファイルから行事・イベントの予定を全て抽出してください。
+JSON形式のみで返してください（前置き・説明文は不要）。
+形式：[{"date":"YYYY-MM-DD","name":"イベント名"},...]
+・日付は2026年として解釈してください
+・月と日が両方わかるものだけ含めてください`});
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content}]})
+    });
+    const data=await res.json();
+    const text=data.content?.map(b=>b.text||'').join('');
+    const match=text.match(/\[[\s\S]*?\]/);
+    if(!match)throw new Error('no json');
+    parsedItems=JSON.parse(match[0]);
+    if(!parsedItems.length)throw new Error('empty');
+    st.className='status-msg success';st.textContent=`✅ ${parsedItems.length}件の予定を読み取りました`;
+    document.getElementById('parsedList').innerHTML=parsedItems.map(e=>`<div class="parsed-item"><span>${e.name}</span><span style="color:var(--text3);font-size:12px;">${e.date}</span></div>`).join('');
+    document.getElementById('parsedPreview').style.display='block';
+  }catch(err){
+    st.className='status-msg error';
+    st.textContent='❌ 読み取りに失敗しました。下の手動入力をご利用ください。';
+  }
+  ev.target.value='';
+}
+
+function toBase64(file){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result.split(',')[1]);r.onerror=rej;r.readAsDataURL(file);});}
+
+function importParsed(){
+  const cat=document.querySelector('#importCatRow .cat-btn.selected')?.dataset.cat||'school';
+  parsedItems.forEach(e=>events.push({id:uid(),date:e.date,name:e.name,cat}));
+  saveEvents();
+  document.getElementById('importModal').classList.remove('open');
+  renderCal();renderEvents();
+  alert(`${parsedItems.length}件を追加しました！`);
+  parsedItems=[];
+}
+
+function addManual(){
+  const name=document.getElementById('manualName').value.trim();
+  const date=document.getElementById('manualDate').value;
+  if(!name){alert('イベント名を入力してください');return;}
+  if(!date){alert('日付を選択してください');return;}
+  const cat=document.querySelector('#manualCatRow .cat-btn.selected')?.dataset.cat||'school';
+  events.push({id:uid(),date,name,cat});
+  saveEvents();
+  document.getElementById('importModal').classList.remove('open');
+  document.getElementById('manualName').value='';
+  renderCal();renderEvents();
+}
+
+renderCal();renderEvents();
+</script>
+</body>
+</html>
