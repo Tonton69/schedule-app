@@ -16,9 +16,9 @@
     --text:#1a1a1e;--text2:#6e6e73;--text3:#aeaeb2;
     --border:rgba(0,0,0,0.08);
     --accent:#5856d6;
-    --school:#34c759;--school-bg:#e8f9ed;--school-text:#1a6630;
-    --ymca:#007aff;--ymca-bg:#e5f0ff;--ymca-text:#003d80;
-    --personal:#ff6b35;--personal-bg:#fff0ea;--personal-text:#7a2800;
+    --yumiko:#ff7a00;--yumiko-bg:#fff3e8;--yumiko-text:#7a3300;
+    --dewa:#007aff;--dewa-bg:#e5f0ff;--dewa-text:#003d80;
+    --ayu:#e8194a;--ayu-bg:#fde8ed;--ayu-text:#7a0020;
     --radius:14px;
     --safe-bottom:env(safe-area-inset-bottom,20px);
   }
@@ -27,9 +27,9 @@
       --bg:#1c1c1e;--bg2:#2c2c2e;--bg3:#3a3a3c;
       --text:#f5f5f7;--text2:#aeaeb2;--text3:#636366;
       --border:rgba(255,255,255,0.08);
-      --school-bg:#0a2e14;--school-text:#4cd964;
-      --ymca-bg:#001f42;--ymca-text:#4db0ff;
-      --personal-bg:#2e1205;--personal-text:#ff8c5a;
+      --yumiko-bg:#3a1800;--yumiko-text:#ffb067;
+      --dewa-bg:#001f42;--dewa-text:#4db0ff;
+      --ayu-bg:#3a0010;--ayu-text:#ff6b8a;
     }
   }
   *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
@@ -46,9 +46,11 @@
   .filters{background:var(--bg2);padding:6px 16px 8px;display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;}
   .filters::-webkit-scrollbar{display:none;}
   .filter-chip{flex-shrink:0;padding:5px 14px;border-radius:20px;font-size:13px;font-weight:500;cursor:pointer;border:1.5px solid transparent;background:var(--bg3);color:var(--text2);transition:all 0.15s;}
-  .filter-chip.active{background:var(--accent);color:#fff;}
-  .filter-chip.school.active{background:var(--school);}
-  .filter-chip.ymca.active{background:var(--ymca);}
+  .filter-chip.active{color:#fff;}
+  .filter-chip[data-f="all"].active{background:var(--accent);}
+  .filter-chip[data-f="yumiko"].active{background:var(--yumiko);}
+  .filter-chip[data-f="dewa"].active{background:var(--dewa);}
+  .filter-chip[data-f="ayu"].active{background:var(--ayu);}
   .month-nav{background:var(--bg2);padding:6px 16px 4px;display:flex;align-items:center;justify-content:space-between;border-bottom:0.5px solid var(--border);}
   .month-label{font-size:15px;font-weight:600;}
   .month-btn{background:none;border:none;color:var(--text2);font-size:20px;cursor:pointer;padding:4px 10px;}
@@ -99,11 +101,14 @@
   .modal textarea{resize:none;height:120px;line-height:1.6;}
   .modal-label{font-size:13px;color:var(--text2);margin-bottom:8px;font-weight:500;}
   .cat-row{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;}
-  .cat-btn{padding:6px 14px;border-radius:20px;font-size:13px;font-weight:500;border:1.5px solid var(--border);background:var(--bg3);color:var(--text2);cursor:pointer;transition:all 0.15s;}
-  .cat-btn.selected{border-color:var(--accent);background:rgba(88,86,214,0.1);color:var(--accent);}
-  .cat-btn[data-cat="school"].selected{border-color:var(--school);background:var(--school-bg);color:var(--school-text);}
-  .cat-btn[data-cat="ymca"].selected{border-color:var(--ymca);background:var(--ymca-bg);color:var(--ymca-text);}
-  .cat-btn[data-cat="personal"].selected{border-color:var(--personal);background:var(--personal-bg);color:var(--personal-text);}
+  .cat-btn{padding:8px 16px;border-radius:20px;font-size:13px;font-weight:600;border:2px solid var(--border);background:var(--bg3);color:var(--text2);cursor:pointer;transition:all 0.15s;display:flex;align-items:center;gap:6px;}
+  .cat-btn .dot-preview{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+  .cat-btn[data-cat="yumiko"] .dot-preview{background:var(--yumiko);}
+  .cat-btn[data-cat="dewa"] .dot-preview{background:var(--dewa);}
+  .cat-btn[data-cat="ayu"] .dot-preview{background:var(--ayu);}
+  .cat-btn[data-cat="yumiko"].selected{border-color:var(--yumiko);background:var(--yumiko-bg);color:var(--yumiko-text);}
+  .cat-btn[data-cat="dewa"].selected{border-color:var(--dewa);background:var(--dewa-bg);color:var(--dewa-text);}
+  .cat-btn[data-cat="ayu"].selected{border-color:var(--ayu);background:var(--ayu-bg);color:var(--ayu-text);}
   .submit-btn{width:100%;padding:14px;background:var(--accent);color:#fff;border:none;border-radius:12px;font-size:16px;font-weight:600;cursor:pointer;font-family:inherit;margin-top:4px;}
   .submit-btn:active{opacity:0.85;}
   .submit-btn.danger{background:#ff3b30;}
@@ -118,8 +123,13 @@
   .parsed-item:last-child{border-bottom:none;}
   .parsed-item-del{background:none;border:none;color:var(--text3);font-size:16px;cursor:pointer;flex-shrink:0;padding:2px 4px;}
   .status-msg{font-size:13px;text-align:center;padding:10px 12px;border-radius:10px;margin-bottom:10px;}
-  .status-msg.success{background:var(--school-bg);color:var(--school-text);}
-  .status-msg.error{background:var(--personal-bg);color:var(--personal-text);}
+  .status-msg.success{background:var(--ayu-bg);color:var(--ayu-text);}
+  .status-msg.error{background:#fff0ea;color:#7a2800;}
+
+  /* Legend */
+  .legend{display:flex;gap:12px;padding:6px 16px 2px;background:var(--bg2);}
+  .legend-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text2);font-weight:500;}
+  .legend-dot{width:8px;height:8px;border-radius:50%;}
 </style>
 </head>
 <body>
@@ -133,11 +143,19 @@
     </div>
   </div>
 
+  <!-- Legend -->
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:var(--yumiko);"></div>Yumiko</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--dewa);"></div>Dewa</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--ayu);"></div>Ayu</div>
+  </div>
+
+  <!-- Filters -->
   <div class="filters">
-    <div class="filter-chip active" onclick="setFilter(this,'all')">すべて</div>
-    <div class="filter-chip school" onclick="setFilter(this,'school')">学校</div>
-    <div class="filter-chip ymca" onclick="setFilter(this,'ymca')">YMCA</div>
-    <div class="filter-chip" onclick="setFilter(this,'personal')">個人</div>
+    <div class="filter-chip active" data-f="all" onclick="setFilter(this,'all')">すべて</div>
+    <div class="filter-chip" data-f="yumiko" onclick="setFilter(this,'yumiko')">Yumiko</div>
+    <div class="filter-chip" data-f="dewa" onclick="setFilter(this,'dewa')">Dewa</div>
+    <div class="filter-chip" data-f="ayu" onclick="setFilter(this,'ayu')">Ayu</div>
   </div>
 
   <div class="cal-wrap">
@@ -175,11 +193,11 @@
     <input type="text" id="evtName" placeholder="イベント名">
     <input type="date" id="evtDate">
     <input type="time" id="evtTime" value="09:00">
-    <div class="modal-label">カテゴリ</div>
+    <div class="modal-label">だれの予定？</div>
     <div class="cat-row" id="addCatRow">
-      <div class="cat-btn selected" data-cat="school" onclick="selectCatIn('addCatRow',this)">学校</div>
-      <div class="cat-btn" data-cat="ymca" onclick="selectCatIn('addCatRow',this)">YMCA</div>
-      <div class="cat-btn" data-cat="personal" onclick="selectCatIn('addCatRow',this)">個人</div>
+      <div class="cat-btn selected" data-cat="yumiko" onclick="selectCatIn('addCatRow',this)"><div class="dot-preview"></div>Yumiko</div>
+      <div class="cat-btn" data-cat="dewa" onclick="selectCatIn('addCatRow',this)"><div class="dot-preview"></div>Dewa</div>
+      <div class="cat-btn" data-cat="ayu" onclick="selectCatIn('addCatRow',this)"><div class="dot-preview"></div>Ayu</div>
     </div>
     <div class="btn-row">
       <button class="submit-btn danger" id="deleteBtn" style="display:none" onclick="deleteEditingEvent()">🗑️ 削除</button>
@@ -194,32 +212,28 @@
     <div class="modal-handle"></div>
     <div class="modal-title">📋 予定を読み込む</div>
 
-    <!-- Step 1: paste text -->
     <div class="info-box">
       <span class="step-num">1</span><b>Claudeにお願いする</b><br>
       このアプリとは別に、Claude（claude.ai）を開いて、学年だよりやYMCAカレンダーの写真を送り、こう頼んでください：<br><br>
       <b>「予定を 月/日 イベント名 という形式で一覧にして」</b>
     </div>
-
     <div class="info-box">
       <span class="step-num">2</span><b>テキストをコピーして下に貼り付ける</b><br>
-      Claudeの返答をコピーして、下のボックスに貼り付けてください。<br>
-      例：<br>
-      <span style="font-family:monospace;font-size:12px;color:var(--accent);">5/7 個人面談①<br>5/9 YMCA<br>5/22 八ヶ岳説明会</span>
+      例：<span style="font-family:monospace;font-size:12px;color:var(--accent);">5/7 個人面談①<br>6/6 YMCA<br>7/4 YMCA</span>
     </div>
 
     <div class="modal-label">テキストを貼り付け</div>
-    <textarea id="pasteArea" placeholder="5/7 個人面談①&#10;5/9 YMCA&#10;5/22 八ヶ岳保護者説明会&#10;（このように1行1件で入力）"></textarea>
+    <textarea id="pasteArea" placeholder="5/7 個人面談①&#10;6/6 YMCA&#10;7/4 YMCA&#10;（このように1行1件で入力）"></textarea>
 
     <div id="parseStatus" style="display:none;"></div>
     <div id="parsedPreview" style="display:none;">
       <div class="modal-label">確認（✕で削除できます）</div>
       <div class="parsed-list" id="parsedList"></div>
-      <div class="modal-label">カテゴリ</div>
+      <div class="modal-label">だれの予定？（デフォルト：Ayu）</div>
       <div class="cat-row" id="importCatRow">
-        <div class="cat-btn selected" data-cat="school" onclick="selectCatIn('importCatRow',this)">学校</div>
-        <div class="cat-btn" data-cat="ymca" onclick="selectCatIn('importCatRow',this)">YMCA</div>
-        <div class="cat-btn" data-cat="personal" onclick="selectCatIn('importCatRow',this)">個人</div>
+        <div class="cat-btn" data-cat="yumiko" onclick="selectCatIn('importCatRow',this)"><div class="dot-preview"></div>Yumiko</div>
+        <div class="cat-btn" data-cat="dewa" onclick="selectCatIn('importCatRow',this)"><div class="dot-preview"></div>Dewa</div>
+        <div class="cat-btn selected" data-cat="ayu" onclick="selectCatIn('importCatRow',this)"><div class="dot-preview"></div>Ayu</div>
       </div>
       <button class="submit-btn" onclick="importParsed()">カレンダーに追加する</button>
     </div>
@@ -228,53 +242,62 @@
 
     <div class="divider"></div>
 
-    <!-- Manual add -->
     <div class="modal-label">1件だけ手動で追加</div>
     <input type="text" id="manualName" placeholder="イベント名">
     <input type="date" id="manualDate">
+    <div class="modal-label">だれの予定？</div>
     <div class="cat-row" id="manualCatRow">
-      <div class="cat-btn selected" data-cat="school" onclick="selectCatIn('manualCatRow',this)">学校</div>
-      <div class="cat-btn" data-cat="ymca" onclick="selectCatIn('manualCatRow',this)">YMCA</div>
-      <div class="cat-btn" data-cat="personal" onclick="selectCatIn('manualCatRow',this)">個人</div>
+      <div class="cat-btn selected" data-cat="yumiko" onclick="selectCatIn('manualCatRow',this)"><div class="dot-preview"></div>Yumiko</div>
+      <div class="cat-btn" data-cat="dewa" onclick="selectCatIn('manualCatRow',this)"><div class="dot-preview"></div>Dewa</div>
+      <div class="cat-btn" data-cat="ayu" onclick="selectCatIn('manualCatRow',this)"><div class="dot-preview"></div>Ayu</div>
     </div>
     <button class="submit-btn" onclick="addManual()">イベントを追加</button>
   </div>
 </div>
 
 <script>
-const STORAGE_KEY='sched_v5';
+const STORAGE_KEY='sched_v6';
 const cats={
-  school:{label:'学校',color:'#34c759',bg:'var(--school-bg)',text:'var(--school-text)'},
-  ymca:  {label:'YMCA',color:'#007aff',bg:'var(--ymca-bg)',  text:'var(--ymca-text)'},
-  personal:{label:'個人',color:'#ff6b35',bg:'var(--personal-bg)',text:'var(--personal-text)'},
+  yumiko:{label:'Yumiko',color:'#ff7a00',bg:'var(--yumiko-bg)',text:'var(--yumiko-text)'},
+  dewa:  {label:'Dewa',  color:'#007aff',bg:'var(--dewa-bg)',  text:'var(--dewa-text)'},
+  ayu:   {label:'Ayu',   color:'#e8194a',bg:'var(--ayu-bg)',   text:'var(--ayu-text)'},
 };
+
 const defaultEvents=[
-  {id:'d1', date:'2026-05-01',name:'家庭確認②',cat:'school'},
-  {id:'d2', date:'2026-05-07',name:'個人面談①・尿検査2次',cat:'school'},
-  {id:'d3', date:'2026-05-08',name:'個人面談②・新林ランド・視力',cat:'school'},
-  {id:'d4', date:'2026-05-09',name:'YMCA',cat:'ymca'},
-  {id:'d5', date:'2026-05-12',name:'個人面談③',cat:'school'},
-  {id:'d6', date:'2026-05-13',name:'個人面談④',cat:'school'},
-  {id:'d7', date:'2026-05-15',name:'委員会',cat:'school'},
-  {id:'d8', date:'2026-05-16',name:'YMCA',cat:'ymca'},
-  {id:'d9', date:'2026-05-18',name:'新林ランド',cat:'school'},
-  {id:'d10',date:'2026-05-20',name:'聴力検査',cat:'school'},
-  {id:'d11',date:'2026-05-21',name:'歯科検診',cat:'school'},
-  {id:'d12',date:'2026-05-22',name:'八ヶ岳保護者説明会 15:00〜',cat:'school'},
-  {id:'d13',date:'2026-05-23',name:'YMCA',cat:'ymca'},
-  {id:'d14',date:'2026-05-25',name:'新林ランド・一斉下校訓練',cat:'school'},
-  {id:'d15',date:'2026-05-26',name:'火災避難訓練',cat:'school'},
-  {id:'d16',date:'2026-05-28',name:'水泳',cat:'school'},
-  {id:'d17',date:'2026-05-29',name:'クラブ活動',cat:'school'},
-  {id:'d18',date:'2026-05-30',name:'YMCA',cat:'ymca'},
-  {id:'d19',date:'2026-06-04',name:'水泳学習',cat:'school'},
-  {id:'d20',date:'2026-06-05',name:'委員会活動',cat:'school'},
-  {id:'d21',date:'2026-06-10',name:'内科検診',cat:'school'},
-  {id:'d22',date:'2026-06-18',name:'八ヶ岳体験教室（1日目）',cat:'school'},
-  {id:'d23',date:'2026-06-19',name:'八ヶ岳体験教室（2日目）',cat:'school'},
-  {id:'d24',date:'2026-06-22',name:'地震津波引き渡し訓練',cat:'school'},
-  {id:'d25',date:'2026-06-25',name:'学校公開日（2〜3時間目）',cat:'school'},
-  {id:'d26',date:'2026-06-26',name:'学校公開日・クラブ活動',cat:'school'},
+  {id:'d1', date:'2026-05-01',name:'家庭確認②',cat:'ayu'},
+  {id:'d2', date:'2026-05-07',name:'個人面談①・尿検査2次',cat:'ayu'},
+  {id:'d3', date:'2026-05-08',name:'個人面談②・新林ランド・視力',cat:'ayu'},
+  {id:'d4', date:'2026-05-09',name:'YMCA',cat:'ayu'},
+  {id:'d5', date:'2026-05-12',name:'個人面談③',cat:'ayu'},
+  {id:'d6', date:'2026-05-13',name:'個人面談④',cat:'ayu'},
+  {id:'d7', date:'2026-05-15',name:'委員会',cat:'ayu'},
+  {id:'d8', date:'2026-05-16',name:'YMCA',cat:'ayu'},
+  {id:'d9', date:'2026-05-18',name:'新林ランド',cat:'ayu'},
+  {id:'d10',date:'2026-05-20',name:'聴力検査',cat:'ayu'},
+  {id:'d11',date:'2026-05-21',name:'歯科検診',cat:'ayu'},
+  {id:'d12',date:'2026-05-22',name:'八ヶ岳保護者説明会 15:00〜',cat:'yumiko'},
+  {id:'d13',date:'2026-05-23',name:'YMCA',cat:'ayu'},
+  {id:'d14',date:'2026-05-25',name:'新林ランド・一斉下校訓練',cat:'ayu'},
+  {id:'d15',date:'2026-05-26',name:'火災避難訓練',cat:'ayu'},
+  {id:'d16',date:'2026-05-28',name:'水泳',cat:'ayu'},
+  {id:'d17',date:'2026-05-29',name:'クラブ活動',cat:'ayu'},
+  {id:'d18',date:'2026-05-30',name:'YMCA',cat:'ayu'},
+  {id:'d19',date:'2026-06-04',name:'水泳学習',cat:'ayu'},
+  {id:'d20',date:'2026-06-05',name:'委員会活動',cat:'ayu'},
+  {id:'d21',date:'2026-06-06',name:'YMCA',cat:'ayu'},
+  {id:'d22',date:'2026-06-10',name:'内科検診',cat:'ayu'},
+  {id:'d23',date:'2026-06-13',name:'YMCA',cat:'ayu'},
+  {id:'d24',date:'2026-06-18',name:'八ヶ岳体験教室（1日目）',cat:'ayu'},
+  {id:'d25',date:'2026-06-19',name:'八ヶ岳体験教室（2日目）',cat:'ayu'},
+  {id:'d26',date:'2026-06-20',name:'YMCA',cat:'ayu'},
+  {id:'d27',date:'2026-06-22',name:'地震津波引き渡し訓練',cat:'ayu'},
+  {id:'d28',date:'2026-06-25',name:'学校公開日（2〜3時間目）',cat:'ayu'},
+  {id:'d29',date:'2026-06-26',name:'学校公開日・クラブ活動',cat:'ayu'},
+  {id:'d30',date:'2026-07-04',name:'YMCA',cat:'ayu'},
+  {id:'d31',date:'2026-07-11',name:'YMCA',cat:'ayu'},
+  {id:'d32',date:'2026-07-18',name:'YMCA',cat:'ayu'},
+  {id:'d33',date:'2026-08-01',name:'YMCA',cat:'ayu'},
+  {id:'d34',date:'2026-08-22',name:'YMCA',cat:'ayu'},
 ];
 
 function loadEvents(){try{const s=localStorage.getItem(STORAGE_KEY);return s?JSON.parse(s):[...defaultEvents];}catch{return[...defaultEvents];}}
@@ -365,12 +388,16 @@ function renderEvents(){
   });
 }
 
-function setFilter(el,f){activeFilter=f;document.querySelectorAll('.filter-chip').forEach(c=>c.classList.remove('active'));el.classList.add('active');renderCal();renderEvents();}
+function setFilter(el,f){
+  activeFilter=f;
+  document.querySelectorAll('.filter-chip').forEach(c=>c.classList.remove('active'));
+  el.classList.add('active');
+  renderCal();renderEvents();
+}
 function changeMonth(dir){viewMonth+=dir;if(viewMonth<0){viewMonth=11;viewYear--;}if(viewMonth>11){viewMonth=0;viewYear++;}renderCal();renderEvents();}
 function overlayClose(e,id){if(e.target===document.getElementById(id))document.getElementById(id).classList.remove('open');}
 function selectCatIn(rowId,el){document.getElementById(rowId).querySelectorAll('.cat-btn').forEach(b=>b.classList.remove('selected'));el.classList.add('selected');}
 
-// ---- ADD / EDIT ----
 function openAddModal(){
   editingId=null;
   document.getElementById('addModalTitle').textContent='新しいイベント';
@@ -379,7 +406,8 @@ function openAddModal(){
   document.getElementById('evtTime').value='09:00';
   document.getElementById('deleteBtn').style.display='none';
   document.getElementById('saveBtn').textContent='追加する';
-  document.getElementById('addCatRow').querySelectorAll('.cat-btn').forEach((b,i)=>b.classList.toggle('selected',i===0));
+  // デフォルトYumiko
+  document.getElementById('addCatRow').querySelectorAll('.cat-btn').forEach(b=>b.classList.toggle('selected',b.dataset.cat==='yumiko'));
   document.getElementById('addModal').classList.add('open');
 }
 function openEditModal(id){
@@ -421,7 +449,6 @@ function deleteEditingEvent(){
   renderCal();renderEvents();
 }
 
-// ---- IMPORT: text paste ----
 function openImportModal(){
   document.getElementById('manualDate').value=fmtDate(selectedDate);
   document.getElementById('parseStatus').style.display='none';
@@ -429,45 +456,31 @@ function openImportModal(){
   document.getElementById('pasteArea').value='';
   document.getElementById('importModal').classList.add('open');
 }
-
 function parseText(){
   const raw=document.getElementById('pasteArea').value.trim();
   const st=document.getElementById('parseStatus');
   if(!raw){st.style.display='block';st.className='status-msg error';st.textContent='テキストを貼り付けてください';return;}
-
-  // Parse lines like: 5/7 個人面談, 5月7日 個人面談, 2026/5/7 個人面談
   const lines=raw.split('\n').map(l=>l.trim()).filter(l=>l);
   const results=[];
-  const year=2026;
-
   for(const line of lines){
-    // patterns: 5/7, 5月7日, 05-07, 2026/5/7, 2026年5月7日
     const m=line.match(/(?:(?:\d{4}[\/年\-])?(\d{1,2})[\/月\-](\d{1,2})日?)\s+(.+)/);
     if(m){
-      const month=parseInt(m[1]);
-      const day=parseInt(m[2]);
-      const name=m[3].trim();
+      const month=parseInt(m[1]),day=parseInt(m[2]),name=m[3].trim();
       if(month>=1&&month<=12&&day>=1&&day<=31&&name){
-        const date=`${year}-${String(month).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
-        results.push({date,name});
+        results.push({date:`2026-${String(month).padStart(2,'0')}-${String(day).padStart(2,'0')}`,name});
       }
     }
   }
-
   if(!results.length){
     st.style.display='block';st.className='status-msg error';
-    st.textContent='読み取れませんでした。「5/7 個人面談」の形式で入力してください';
-    return;
+    st.textContent='読み取れませんでした。「5/7 個人面談」の形式で入力してください';return;
   }
-
   parsedItems=[...results];
   st.style.display='block';st.className='status-msg success';
   st.textContent=`✅ ${results.length}件を読み取りました`;
-
   renderParsedList();
   document.getElementById('parsedPreview').style.display='block';
 }
-
 function renderParsedList(){
   document.getElementById('parsedList').innerHTML=parsedItems.map((e,i)=>`
     <div class="parsed-item">
@@ -478,20 +491,13 @@ function renderParsedList(){
       </span>
     </div>`).join('');
 }
-
 function removeParsedItem(i){
   parsedItems.splice(i,1);
-  if(!parsedItems.length){
-    document.getElementById('parsedPreview').style.display='none';
-    document.getElementById('parseStatus').style.display='none';
-  } else {
-    renderParsedList();
-    document.getElementById('parseStatus').textContent=`✅ ${parsedItems.length}件を読み取りました`;
-  }
+  if(!parsedItems.length){document.getElementById('parsedPreview').style.display='none';document.getElementById('parseStatus').style.display='none';}
+  else{renderParsedList();document.getElementById('parseStatus').textContent=`✅ ${parsedItems.length}件を読み取りました`;}
 }
-
 function importParsed(){
-  const cat=document.querySelector('#importCatRow .cat-btn.selected')?.dataset.cat||'school';
+  const cat=document.querySelector('#importCatRow .cat-btn.selected')?.dataset.cat||'ayu';
   parsedItems.forEach(e=>events.push({id:uid(),date:e.date,name:e.name,cat}));
   saveEvents();
   document.getElementById('importModal').classList.remove('open');
@@ -499,13 +505,12 @@ function importParsed(){
   alert(`${parsedItems.length}件を追加しました！`);
   parsedItems=[];
 }
-
 function addManual(){
   const name=document.getElementById('manualName').value.trim();
   const date=document.getElementById('manualDate').value;
   if(!name){alert('イベント名を入力してください');return;}
   if(!date){alert('日付を選択してください');return;}
-  const cat=document.querySelector('#manualCatRow .cat-btn.selected')?.dataset.cat||'school';
+  const cat=document.querySelector('#manualCatRow .cat-btn.selected')?.dataset.cat||'yumiko';
   events.push({id:uid(),date,name,cat});
   saveEvents();
   document.getElementById('importModal').classList.remove('open');
